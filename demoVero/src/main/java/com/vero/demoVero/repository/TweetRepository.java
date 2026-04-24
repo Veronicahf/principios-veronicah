@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.vero.demoVero.models.Tweet;
 
 @Repository
-public interface TweetRepository extends JpaRepository<Tweet, Long>{
+public interface TweetRepository extends JpaRepository<Tweet, Long> {
 
 }
+
