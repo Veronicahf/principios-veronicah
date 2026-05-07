@@ -1,5 +1,16 @@
 package com.vero.superheroes.models;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table( name = "tweet_reactions",
@@ -61,6 +72,7 @@ public class SuperheroeReaction {
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
+   @JsonIgnore
     User user;
 
     public User getUser() {
@@ -75,6 +87,7 @@ public class SuperheroeReaction {
     @ManyToOne
     @MapsId("superheroeId")
     @JoinColumn(name = "superheroe_id")
+    @JsonIgnore
     Superheroe superheroe;
 
     public Superheroe getSuperheroe() {
@@ -89,6 +102,7 @@ public class SuperheroeReaction {
     @ManyToOne
     @MapsId("reactionId")
     @JoinColumn(name = "reaction_id")
+    @JsonIgnore
     Reaction reaction;
 
     public Reaction getReaction() {

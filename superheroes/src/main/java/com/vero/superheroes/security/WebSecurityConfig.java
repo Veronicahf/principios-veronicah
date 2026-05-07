@@ -3,6 +3,10 @@ package com.vero.superheroes.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -54,6 +58,24 @@ public class WebSecurityConfig   {
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
+
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.addAllowedOriginPattern("*");
+    configuration.addAllowedMethod("*");
+    configuration.addAllowedHeader("*");
+    configuration.setAllowCredentials(false);
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+  }
+
+  @Bean
+  public CorsFilter corsFilter() {
+    return new CorsFilter(corsConfigurationSource());
+  }
   
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -65,9 +87,11 @@ public class WebSecurityConfig   {
           auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
               .requestMatchers("/api/auth/**").permitAll()
               .requestMatchers("/api/test/**").permitAll()
+              .requestMatchers("/error").permitAll()
               // GET requests are public (read-only)
               .requestMatchers(HttpMethod.GET, "/api/superheroes/**").permitAll()
               .requestMatchers(HttpMethod.GET, "/api/reactions/**").permitAll()
+              .requestMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
               // POST, PUT, DELETE require authentication
               .requestMatchers(HttpMethod.POST, "/api/superheroes/**").authenticated()
               .requestMatchers(HttpMethod.DELETE, "/api/superheroes/**").authenticated()

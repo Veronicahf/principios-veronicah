@@ -30,6 +30,10 @@ public class Superheroe {
     @JsonIgnore
     Set<SuperheroeReaction> likes;
 
+    @OneToMany(mappedBy = "superheroe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Comment> comments;
+
     public Superheroe() {}
 
     public Superheroe(String nombre, String habilidades, String debilidades, String enemigos, String urlPhoto) {
@@ -68,5 +72,13 @@ public class Superheroe {
 
     public void setLikes(Set<SuperheroeReaction> likes) {
         this.likes = likes;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }

@@ -39,6 +39,10 @@ public class User {
   @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonIgnore
+  private Set<Comment> comments;
+
 
   public User() {
   }
@@ -92,6 +96,14 @@ public class User {
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
+  }
+
+  public Set<Comment> getComments() {
+    return comments;
+  }
+
+  public void setComments(Set<Comment> comments) {
+    this.comments = comments;
   }
 
 

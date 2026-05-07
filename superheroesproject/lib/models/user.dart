@@ -37,4 +37,8 @@ class User {
       'roles': roles,
     };
   }
+
+  bool hasRole(String role) {
+    return roles.contains(role);
+  }
 }
